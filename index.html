@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cinco meses contigo</title>
+  <style>
+    :root {
+      --pink: #ff8fc7;
+      --pink-soft: #ffe3f2;
+      --lila: #c9a7ff;
+      --lila-soft: #f2eaff;
+      --white: #fffafc;
+      --ink: #5b3854;
+      --muted: #8a6b83;
+      --gold: #d7a84f;
+      --shadow: 0 22px 70px rgba(153, 72, 130, .22);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Georgia", "Times New Roman", serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(255, 143, 199, .35), transparent 28%),
+        radial-gradient(circle at 90% 15%, rgba(201, 167, 255, .38), transparent 30%),
+        radial-gradient(circle at 50% 100%, rgba(255, 227, 242, .9), transparent 35%),
+        linear-gradient(135deg, #fff7fb 0%, #f8edff 47%, #fffafd 100%);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    button, input, label { font-family: inherit; }
+
+    .cursor-flower {
+      position: fixed;
+      width: 34px;
+      height: 34px;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      filter: drop-shadow(0 4px 8px rgba(167, 79, 139, .2));
+      transition: transform .08s ease;
+    }
+
+    .sparkle, .floatie, .click-heart {
+      position: fixed;
+      pointer-events: none;
+      z-index: 1;
+      animation: floatUp linear forwards;
+      opacity: .78;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(20px) rotate(0deg) scale(.7); opacity: 0; }
+      10% { opacity: .85; }
+      100% { transform: translateY(-115vh) rotate(360deg) scale(1.2); opacity: 0; }
+    }
+
+    @keyframes popHeart {
+      0% { transform: translate(-50%, -50%) scale(.4); opacity: 0; }
+      20% { opacity: 1; }
+      100% { transform: translate(-50%, -190%) scale(1.5) rotate(22deg); opacity: 0; }
+    }
+
+    .click-heart { animation: popHeart 1.15s ease-out forwards; z-index: 20; }
+
+    .app {
+      position: relative;
+      z-index: 5;
+      min-height: 100vh;
+      padding: 28px 16px 42px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .book-shell {
+      width: min(1080px, 100%);
+      min-height: 700px;
+      background:
+        linear-gradient(90deg,
+          rgba(255, 250, 252, .94) 0%,
+          rgba(255, 250, 252, .92) 47%,
+          rgba(184, 130, 179, .18) 49.7%,
+          rgba(122, 76, 117, .18) 50%,
+          rgba(255, 250, 252, .92) 52.5%,
+          rgba(255, 250, 252, .94) 100%);
+      border: 1px solid rgba(255, 255, 255, .9);
+      border-radius: 34px;
+      box-shadow: var(--shadow), inset 0 0 42px rgba(255, 143, 199, .12);
+      backdrop-filter: blur(18px);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .book-shell::before {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border: 1px dashed rgba(201, 167, 255, .55);
+      border-radius: 26px;
+      pointer-events: none;
+    }
+
+    .book-shell::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 34px;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, transparent, rgba(100, 58, 95, .12), transparent);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .ribbon {
+      position: absolute;
+      top: 0;
+      right: 52px;
+      width: 54px;
+      height: 110px;
+      background: linear-gradient(180deg, var(--pink), var(--lila));
+      border-radius: 0 0 18px 18px;
+      box-shadow: 0 8px 22px rgba(180, 92, 168, .25);
+      z-index: 4;
+    }
+
+    .page {
+      display: none;
+      min-height: 680px;
+      padding: 58px clamp(24px, 6vw, 74px) 40px;
+      animation: pageIn .55s ease;
+    }
+
+    .page.active { display: block; }
+
+    @keyframes pageIn {
+      from { opacity: 0; transform: translateX(22px) scale(.99); }
+      to { opacity: 1; transform: translateX(0) scale(1); }
+    }
+
+    .cover {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+      min-height: 590px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .7);
+      border: 1px solid rgba(255, 143, 199, .32);
+      color: var(--muted);
+      font-size: 14px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    h1, h2, h3 { margin: 0; }
+
+    h1 {
+      font-size: clamp(42px, 8vw, 86px);
+      line-height: .95;
+      color: #8e4b83;
+      text-shadow: 0 8px 22px rgba(255, 143, 199, .22);
+    }
+
+    .cover-quote {
+      font-size: clamp(20px, 4vw, 34px);
+      max-width: 760px;
+      line-height: 1.25;
+      color: #6d4164;
+      margin: 8px auto 0;
+    }
+
+    .cover-photo {
+      width: min(380px, 86vw);
+      aspect-ratio: 4 / 3;
+      padding: 10px;
+      border-radius: 32px;
+      background: rgba(255, 255, 255, .72);
+      border: 1px solid rgba(255, 143, 199, .34);
+      box-shadow: 0 18px 42px rgba(133, 76, 122, .18);
+      transform: rotate(-1.5deg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cover-photo::after {
+      content: "🌸 💖 🌷";
+      position: absolute;
+      left: 18px;
+      bottom: 14px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .72);
+      color: #8e4b83;
+      font-size: 15px;
+      backdrop-filter: blur(8px);
+    }
+
+    .cover-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 24px;
+      display: block;
+    }
+
+    .dedication {
+      max-width: 740px;
+      font-size: 18px;
+      line-height: 1.7;
+      color: var(--muted);
+      margin: 0 auto;
+    }
+
+    .chapter-label {
+      color: var(--gold);
+      text-transform: uppercase;
+      font-size: 13px;
+      letter-spacing: .18em;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+
+    h2 {
+      font-size: clamp(32px, 5vw, 56px);
+      line-height: 1;
+      color: #8e4b83;
+      margin-bottom: 18px;
+    }
+
+    .date-pill {
+      display: inline-block;
+      background: linear-gradient(135deg, rgba(255,143,199,.2), rgba(201,167,255,.23));
+      color: #7c4d73;
+      padding: 8px 14px;
+      border-radius: 999px;
+      margin-bottom: 24px;
+      font-size: 15px;
+      border: 1px solid rgba(255, 143, 199, .28);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(280px, .95fr);
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .text-card, .photo-card, .memory-card {
+      background: rgba(255, 255, 255, .66);
+      border: 1px solid rgba(255, 255, 255, .95);
+      border-radius: 28px;
+      box-shadow: 0 14px 38px rgba(133, 76, 122, .11);
+    }
+
+    .text-card {
+      padding: 26px;
+      font-size: 18px;
+      line-height: 1.72;
+    }
+
+    .text-card p { margin: 0 0 16px; }
+    .text-card p:last-child { margin-bottom: 0; }
+
+    .quote-box {
+      margin-top: 18px;
+      padding: 18px 20px;
+      border-left: 4px solid var(--pink);
+      background: linear-gradient(135deg, rgba(255,227,242,.7), rgba(242,234,255,.75));
+      border-radius: 18px;
+      font-size: 17px;
+      color: #6f4268;
+    }
+
+    .photo-card {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      justify-content: center;
+    }
+
+    .photo-frame {
+      min-height: 390px;
+      border-radius: 24px;
+      border: 2px dashed rgba(201, 167, 255, .7);
+      background:
+        linear-gradient(rgba(255,255,255,.55), rgba(255,255,255,.55)),
+        radial-gradient(circle at 30% 20%, rgba(255,143,199,.45), transparent 28%),
+        radial-gradient(circle at 70% 75%, rgba(201,167,255,.42), transparent 34%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      position: relative;
+      color: var(--muted);
+      padding: 22px;
+    }
+
+    .photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+    }
+
+    .photo-placeholder { z-index: 2; }
+    .photo-placeholder .big { font-size: 42px; display: block; margin-bottom: 8px; }
+
+    .photo-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .upload-label, .btn {
+      border: 0;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--pink), var(--lila));
+      color: white;
+      padding: 12px 18px;
+      cursor: none;
+      box-shadow: 0 12px 24px rgba(174, 89, 165, .25);
+      transition: transform .2s ease, box-shadow .2s ease;
+      font-size: 15px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .upload-label:hover, .btn:hover { transform: translateY(-2px); box-shadow: 0 16px 30px rgba(174, 89, 165, .33); }
+    input[type="file"] { display: none; }
+
+    .memory-card {
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .memory-title {
+      font-weight: 700;
+      color: #8e4b83;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tiny-list {
+      margin: 0;
+      padding-left: 20px;
+      line-height: 1.7;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .nav {
+      width: min(980px, 100%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .progress {
+      flex: 1;
+      min-width: 220px;
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .65);
+      overflow: hidden;
+      border: 1px solid rgba(255, 143, 199, .22);
+    }
+
+    .bar {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--pink), var(--lila));
+      transition: width .3s ease;
+    }
+
+    .page-counter {
+      color: var(--muted);
+      font-size: 15px;
+      min-width: 110px;
+      text-align: center;
+    }
+
+    .secret-btn {
+      margin-top: 16px;
+      background: rgba(255,255,255,.65);
+      color: #8e4b83;
+      border: 1px solid rgba(255,143,199,.35);
+      box-shadow: none;
+    }
+
+    .secret-message {
+      display: none;
+      margin-top: 16px;
+      padding: 18px 20px;
+      background: rgba(255,255,255,.72);
+      border-radius: 22px;
+      color: #7a4b71;
+      line-height: 1.6;
+      border: 1px solid rgba(201,167,255,.35);
+    }
+
+    .secret-message.show { display: block; animation: pageIn .35s ease; }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .timeline button {
+      border: 1px solid rgba(255,143,199,.28);
+      background: rgba(255,255,255,.68);
+      color: #7d5275;
+      border-radius: 18px;
+      padding: 14px;
+      text-align: left;
+      cursor: none;
+      transition: transform .2s ease, background .2s ease;
+    }
+
+    .timeline button:hover { transform: translateY(-2px); background: rgba(255,227,242,.85); }
+    .timeline small { display: block; color: var(--gold); font-weight: 700; margin-bottom: 4px; }
+
+    .final-letter {
+      max-width: 850px;
+      margin: 0 auto;
+      font-size: clamp(18px, 2.2vw, 22px);
+      line-height: 1.82;
+      color: #6d4164;
+      background: rgba(255,255,255,.68);
+      padding: clamp(24px, 5vw, 44px);
+      border-radius: 30px;
+      border: 1px solid rgba(255,255,255,.95);
+      box-shadow: 0 14px 38px rgba(133, 76, 122, .11);
+    }
+
+    .final-gallery {
+      max-width: 880px;
+      margin: 26px auto 0;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+
+    .final-gallery img {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+      border-radius: 22px;
+      border: 6px solid rgba(255,255,255,.75);
+      box-shadow: 0 12px 28px rgba(133, 76, 122, .15);
+      opacity: 0;
+      transform: translateY(18px) rotate(var(--rot));
+      animation: photoReveal .8s ease forwards;
+    }
+
+    .final-gallery img:nth-child(1) { --rot: -3deg; animation-delay: .1s; }
+    .final-gallery img:nth-child(2) { --rot: 2deg; animation-delay: .35s; }
+    .final-gallery img:nth-child(3) { --rot: -1deg; animation-delay: .6s; }
+    .final-gallery img:nth-child(4) { --rot: 3deg; animation-delay: .85s; }
+    .final-gallery img:nth-child(5) { --rot: -2deg; animation-delay: 1.1s; }
+
+    @keyframes photoReveal {
+      to { opacity: 1; transform: translateY(0) rotate(var(--rot)); }
+    }
+
+    .signature {
+      margin-top: 28px;
+      text-align: right;
+      font-size: 24px;
+      color: #8e4b83;
+    }
+
+    .instructions {
+      width: min(980px, 100%);
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 14px;
+      text-align: center;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 780px) {
+      .book-shell::after { display: none; }
+      .final-gallery { grid-template-columns: repeat(2, 1fr); }
+      .final-gallery img { height: 150px; }
+      .final-gallery img:last-child { grid-column: 1 / -1; }
+      body { cursor: auto; }
+      .cursor-flower { display: none; }
+      .page { padding: 42px 18px 28px; min-height: 660px; }
+      .grid { grid-template-columns: 1fr; }
+      .photo-frame { min-height: 310px; }
+      .book-shell { border-radius: 26px; }
+      .ribbon { right: 26px; width: 42px; height: 82px; }
+      .nav { justify-content: center; }
+      .btn, .upload-label, .timeline button { cursor: pointer; }
+    }
+  </style>
+</head>
+<body>
+  <div class="cursor-flower" id="cursor">🌸</div>
+  <main class="app">
+    <section class="book-shell" aria-live="polite">
+      <div class="ribbon"></div>
+
+      <article class="page active cover" data-title="Portada">
+        <div class="eyebrow">🌷 5 meses · Vale & Nico 🌷</div>
+        <h1>Nuestra historia</h1>
+        <div class="cover-photo">
+          <img src="Portada.jpeg" alt="Portada de nuestra historia">
+        </div>
+        <p class="cover-quote">“Cinco meses contigo y ya sé que quiero una vida entera.”</p>
+        <p class="dedication">
+          Para mi Pecas, mi Reini, mi Negri, mi señora, mi amor de mi vida: este librito es una parte chiquitita de todo lo que siento por ti.
+          Una historia que empezó con nervios, cine, risas, besitos, una tele que casi fue robada en broma y una certeza que crece todos los días: yo quiero elegirte siempre.
+        </p>
+        <button class="btn" onclick="nextPage()">Abrir nuestro libro 💖</button>
+        <button class="btn secret-btn" onclick="toggleSecret(this)">Toca aquí si quieres una pista 🌙</button>
+        <div class="secret-message">Spoiler: este libro está lleno de nosotras, de risas, de Emi diciendo “sexo” en vez de “acceso”, de Nali inspeccionando olores sospechosos y de una rulitos absolutamente enamorada.</div>
+      </article>
+
+      <article class="page" data-title="Primera cita">
+        <div class="chapter-label">Capítulo 01</div>
+        <h2>El día en que todo empezó</h2>
+        <span class="date-pill">7 de diciembre de 2025 · Cine · 16:10 · Zootopia 2</span>
+        <div class="grid">
+          <div>
+            <div class="text-card">
+              <p>Ese día yo estaba nerviosa. No por perderme en el mall —aunque también un poquito— sino porque iba a conocerte. Tú, en cambio, toda segura: “no”, “soy re simpática”. Y sí, mi amor, tenías razón. Eras y eres re simpática. Perdón: muy simpática.</p>
+              <p>Fuimos a ver Zootopia 2 y hasta los asientos se pusieron dramáticos: nos los quitaron dos veces porque estaban ocupados. Pero ni eso pudo arruinar la cita. Al contrario, quedó como nuestra primera mini aventura absurda.</p>
+              <p>También estuvo el primer beso. Ese que no estaba escrito en ninguna entrada del cine, pero que terminó siendo la escena más importante del día.</p>
+              <div class="quote-box">Momento guardado: tú con tu carita coqueta, yo desconcentrándome, y el mundo poniéndose borroso porque estabas tú.</div>
+            </div>
+            <div class="memory-card">
+              <div class="memory-title">🌸 Cositas de ese día</div>
+              <ul class="tiny-list">
+                <li>Los nervios antes de encontrarnos.</li>
+                <li>La tele que mi señora quería robarse en broma.</li>
+                <li>El vaso de la Emi como “estrategia” para volver a verte.</li>
+                <li>La frase inevitable: nadie puede ser más simpática que tú.</li>
+              </ul>
+            </div>
+          </div>
+          <PhotoCard chapter="1" src="Foto1.jpeg" text="Nuestra primera cita: el punto de partida de todo" />
+        </div>
+      </article>
+
+      <article class="page" data-title="Después del cine">
+        <div class="chapter-label">Capítulo 02</div>
+        <h2>Cuando llegamos a casa, pero no nos fuimos</h2>
+        <span class="date-pill">La noche del 7 y madrugada del 8 de diciembre</span>
+        <div class="grid">
+          <div class="text-card">
+            <p>Después de la cita llegué a casa, pero seguí contigo. En los mensajes, en el olor, en la sonrisa tonta, en la Nali olfateándome heavy como diciendo: “¿y este olor a otra perra?”.</p>
+            <p>Me acuerdo de tu carita, tus ojitos, tus besitos, tu perfume, y de esa sensación rara y linda de haber conectado mucho más rápido de lo que una espera.</p>
+            <p>Esa noche fue como una promesa sin decirla: obvio que nos volveríamos a ver.</p>
+            <div class="quote-box">“Estoy pasadita a ti.” / “Me gusta oler a ti.”</div>
+          </div>
+          <PhotoCard chapter="2" src="Foto2.jpeg" text="Nali entrando a esta historia" />
+        </div>
+      </article>
+
+      <article class="page" data-title="Querernos bonito">
+        <div class="chapter-label">Capítulo 03</div>
+        <h2>Acostumbrarnos a que nos quieran bonito</h2>
+        <span class="date-pill">Diciembre · cuando todo se empezó a sentir recíproco</span>
+        <div class="grid">
+          <div class="text-card">
+            <p>Desde el inicio hubo algo que se sintió distinto: las ganas de vernos, de cuidarnos, de preguntar si la otra comió, durmió, llegó bien, si le dolía algo, si necesitaba mimos.</p>
+            <p>Tú me dijiste que nadie nunca te había querido ver tanto. Y yo pensé que quizá las dos teníamos que aprender algo nuevo: no arrancar de lo intenso cuando viene con ternura, no asustarnos cuando alguien quiere estar, cuidar y quedarse.</p>
+            <p>Ahí nació una de mis frases favoritas de nosotras: tenemos que acostumbrarnos a que nos quieran bonito.</p>
+            <div class="quote-box">Y yo no tengo ningún problema en acostumbrarme contigo, mi amor.</div>
+          </div>
+          <PhotoCard chapter="3" src="Foto4.jpeg" text="Manitos, pastito y querernos bonito" />
+        </div>
+      </article>
+
+      <article class="page" data-title="Vulnerabilidad">
+        <div class="chapter-label">Capítulo 04</div>
+        <h2>Tu vulnerabilidad también me enamoró</h2>
+        <span class="date-pill">Martes de diciembre · día por confirmar</span>
+        <div class="grid">
+          <div class="text-card">
+            <p>Hubo un día en que estabas enfermita, con dolor, vulnerable, cansada. Y aunque una quisiera que la persona que ama nunca lo pase mal, también fue hermoso poder verte de verdad: sin pose, sin defensa, solo tú.</p>
+            <p>Ese día no me dio miedo cuidarte. Al contrario, me nació. Me nació preocuparme, insistirte que te vieras, querer hacerte mimos, darte agüita, compresas frías, oscuridad, calma y compañía.</p>
+            <p>Porque amar también es eso: querer estar cuando la otra brilla y también cuando necesita apoyarse un ratito.</p>
+            <div class="quote-box">Mi señora, incluso en tus días difíciles, me sigues pareciendo hogar.</div>
+          </div>
+          <PhotoCard chapter="4" src="Foto8.jpeg" text="Mimos, cama y Nali acompañando" />
+        </div>
+      </article>
+
+      <article class="page" data-title="Playa y Emi">
+        <div class="chapter-label">Capítulo 05</div>
+        <h2>La playa, Emi y un pedacito más de tu mundo</h2>
+        <span class="date-pill">Viernes 12 y sábado 13 de diciembre</span>
+        <div class="grid">
+          <div>
+            <div class="text-card">
+              <p>El viernes 12 fue nuestro primer viaje a la playa. Una escapada que tenía mar, risa, nervios bonitos y esa sensación de estar construyendo recuerdos que una sabe que va a querer guardar.</p>
+              <p>El sábado 13 conocí a la Emi. Y eso, mi amor, no fue cualquier cosa. Fue entrar con respeto a una parte gigante de tu vida, entendiendo que ella es tu prioridad y que amar a una mamá también significa honrar ese amor tan grande que existe antes que una.</p>
+              <p>Desde ahí, la historia dejó de ser solo de dos y empezó a tener también pequeños momentos de tres: planes, cuidado, risas, paciencia y cariño.</p>
+              <div class="quote-box">Y sí: después vino el legendario “acceso”. Nadie lo supera.</div>
+            </div>
+          </div>
+          <PhotoCard chapter="5" src="Foto3.jpeg" text="La playa y los primeros pedacitos de tu mundo" />
+        </div>
+      </article>
+
+      <article class="page" data-title="Navidad">
+        <div class="chapter-label">Capítulo 06</div>
+        <h2>Nuestra primera Navidad</h2>
+        <span class="date-pill">25 de diciembre de 2025</span>
+        <div class="grid">
+          <div class="text-card">
+            <p>El 25 fue nuestra primera Navidad juntas. Y aunque mi señora no sea fanática de la Navidad, para mí ese día quedó guardado por una sola razón: estabas tú.</p>
+            <p>Porque a veces una fecha no se vuelve especial por lo que significa para el mundo, sino por la persona con la que la vives. Y contigo, hasta las fechas que antes podían pesar, se sienten un poquito más suaves.</p>
+            <p>Gracias por dejarme acompañarte incluso en esas cosas que no siempre te gustan. Gracias por hacerme espacio en tu vida.</p>
+            <div class="quote-box">Primera Navidad juntas: oficialmente otro primerito para nuestro libro.</div>
+          </div>
+          <PhotoCard chapter="6" src="Foto6.jpeg" text="Nuestra primera Navidad juntas" />
+        </div>
+      </article>
+
+      <article class="page" data-title="La pelota y nuestra primera foto familiar">
+        <div class="chapter-label">Capítulo 07</div>
+        <h2>La primera vez que me fueron a ver jugar</h2>
+        <span class="date-pill">San Felipe · nuestra primera foto familiar</span>
+        <div class="grid">
+          <div class="text-card">
+            <p>Hay momentos que parecen simples, pero para mí significan demasiado. Que me fueran a ver jugar a la pelota en San Felipe fue uno de esos recuerdos que se quedan guardados en un lugar especial.</p>
+            <p>No era solo un partido. Era verte ahí, acompañándome, compartiendo ese pedacito mío, y sentir que de a poquito nuestras vidas se empezaban a mezclar también en lo cotidiano: en mis cosas, tus cosas, nuestros planes y nuestras risas.</p>
+            <p>Además quedó nuestra primera foto familiar. Una imagen que me da ternura porque muestra algo que todavía está creciendo, pero que ya se siente inmenso: tú, Emi y yo compartiendo mundo.</p>
+            <div class="quote-box">San Felipe quedó marcado como el día en que una cancha también se volvió recuerdo de amor.</div>
+          </div>
+          <PhotoCard chapter="7" src="Foto7.jpeg" text="Primera vez que me fueron a ver jugar y primera foto familiar" />
+        </div>
+      </article>
+
+      <article class="page" data-title="Pololeo">
+        <div class="chapter-label">Capítulo 08</div>
+        <h2>El día en que empezamos oficialmente</h2>
+        <span class="date-pill">3 de enero de 2026</span>
+        <div class="grid">
+          <div class="text-card">
+            <p>Había una desesperación preciosa por empezar a pololear. Como si las dos ya supiéramos, pero hubiera que esperar a que la vida encontrara la fecha exacta.</p>
+            <p>Tú me pediste pololeo el 3 de enero porque no querías que fuera en una fecha especial. Y eso lo hizo aún más especial, porque desde ese día la fecha dejó de ser cualquiera: se volvió nuestra.</p>
+            <p>Ese mismo día conociste a la Nali, lo más importante de mi vida. Y no sé si dimensionas lo grande que fue eso para mí: mi mundo mirándote, oliéndote, registrándote, y yo sintiendo que algo hacía clic.</p>
+            <div class="quote-box">3 de enero: tú, yo, la Nali y un “sí” que todavía me emociona.</div>
+          </div>
+          <PhotoCard chapter="8" src="Foto13.jpeg" text="El sí, la Nali y el inicio oficial" />
+        </div>
+      </article>
+
+      <article class="page" data-title="Familias">
+        <div class="chapter-label">Capítulo 09</div>
+        <h2>Cuando nuestros mundos se empezaron a cruzar</h2>
+        <span class="date-pill">10 y 28 de enero de 2026</span>
+        <div class="grid">
+          <div class="text-card">
+            <p>El 10 de enero conociste a mi familia: mis papás, mi hermano y su familia. Y el 28 de enero yo conocí a tu familia para tu cumpleaños.</p>
+            <p>Entrar en la casa de alguien no es solo pasar por una puerta. Es entrar a una historia, a una rutina, a las personas que han estado antes. Desde ese día pude entrar a tu casa, pero más que eso, sentí que también entraba un poquito más en tu vida.</p>
+            <p>Y qué lindo ha sido ir conociendo nuestros mundos sin apurarlos, con respeto, humor, nervios y amorcito.</p>
+            <div class="quote-box">Tu cumpleaños fue el primer gran paso hacia tu gente. Y yo feliz de estar ahí.</div>
+          </div>
+          <PhotoCard chapter="9" src="Foto16.jpeg" text="Nuestros mundos cruzándose" />
+        </div>
+      </article>
+
+      <article class="page" data-title="Extrañarnos">
+        <div class="chapter-label">Capítulo 10</div>
+        <h2>Extrañarte incluso cuando te acabo de ver</h2>
+        <span class="date-pill">Enero y febrero · nuestro síndrome oficial</span>
+        <div class="grid">
+          <div class="text-card">
+            <p>Hay algo que me encanta de nosotras: nos extrañamos mucho. Ridículamente mucho. De esa forma en que una se despide y ya está pensando cuándo vuelve a abrazar, cuándo vuelve a oler el pelito de la otra, cuándo vuelve a tomarle la mano.</p>
+            <p>Me gusta que queramos vernos. Me gusta el esfuerzo mutuo. Me gusta que no sea solo una la que mueve el mundo para encontrarse. Me gusta que lo nuestro se sienta elegido por las dos.</p>
+            <p>Y sí, amor: eres adictiva. Tus sonrisas, tus besitos, tu manera de mirarme, tu forma de decirme “amor”. Todo.</p>
+            <div class="quote-box">“No sé cómo es que te extraño tanto.” Yo sí sé: porque eres tú.</div>
+          </div>
+          <PhotoCard chapter="10" src="Foto12.jpeg" text="Extrañarte, regalonearte y querer quedarme" />
+        </div>
+      </article>
+
+      <article class="page" data-title="Cumpleaños Nico y su familia">
+        <div class="chapter-label">Capítulo 11</div>
+        <h2>Tu cumpleaños y conocer a tu familia</h2>
+        <span class="date-pill">28 de enero de 2026</span>
+        <div class="grid">
+          <div class="text-card">
+            <p>El 28 de enero fue tu cumpleaños y también el día en que conocí a tu familia. Para mí fue un momento muy importante, porque no solo estaba celebrándote: estaba entrando un poquito más en tu historia.</p>
+            <p>Conocer a tu gente, verte en tu mundo, estar ahí mientras te celebraban, fue otra manera de entenderte y quererte. Me dio ternura, nervios y felicidad poder acompañarte en un día tan tuyo.</p>
+            <p>Desde ese día también pude entrar a tu casa. Y aunque suene simple, para mí significó confianza, espacio y un lugarcito más cerca de ti.</p>
+            <div class="quote-box">Tu cumpleaños fue una puerta abierta: a tu casa, a tu familia y a un pedazo más de tu corazón.</div>
+          </div>
+          <PhotoCard chapter="11" src="Foto11.jpeg" text="Cumpleaños de la Nico y el día que conocí a su familia" />
+        </div>
+      </article>
+
+      <article class="page" data-title="Concierto">
+        <div class="chapter-label">Capítulo 12</div>
+        <h2>Nuestro primer concierto</h2>
+        <span class="date-pill">12 de febrero de 2026 · Tini</span>
+        <div class="grid">
+          <div class="text-card">
+            <p>El 12 de febrero fue nuestro primer concierto juntas: Tini. Un primer concierto siempre tiene algo de película, pero contigo todo tiene un brillo extra.</p>
+            <p>Me gusta pensar que entre música, luces y canciones, también había otra cosa sonando más bajito: esta historia nuestra, que se venía armando de a poco, con planes, cariño, intensidad, humor y muchas ganas.</p>
+            <p>Fue otro primerito. Otro capítulo. Otra prueba de que contigo quiero vivir cosas grandes, chicas, simples, intensas, ridículas y hermosas.</p>
+            <div class="quote-box">Primer concierto juntas: oficialmente una canción más para nuestra historia.</div>
+          </div>
+          <PhotoCard chapter="12" src="Foto10.jpeg" text="Nuestro primer concierto: Tini" />
+        </div>
+      </article>
+
+      <article class="page" data-title="San Valentín y Papudo">
+        <div class="chapter-label">Capítulo 13</div>
+        <h2>San Valentín, Papudo y el famoso acceso</h2>
+        <span class="date-pill">14 de febrero y fin de semana del 13 · Papudo</span>
+        <div class="grid">
+          <div>
+            <div class="text-card">
+              <p>El 14 de febrero fue nuestro primer San Valentín juntas. Y cerca de esos días vino nuestro primer viaje con la Nico y la Emi a Papudo.</p>
+              <p>Ese viaje merece un capítulo solo por todo lo que significó: compartir de otra manera, convivir, reírnos, adaptarnos, hacer espacio y guardar anécdotas que ya son de colección.</p>
+              <p>Y por supuesto: Emi diciendo “sexo” en vez de “acceso”. Desde ese día, cada vez que queremos decir una cosa terminamos pensando en la otra. Una talla interna absurda, perfecta, inolvidable.</p>
+              <div class="quote-box">Diccionario oficial de nosotras: acceso = sexo. Gracias, Emi.</div>
+            </div>
+            <div class="memory-card">
+              <div class="memory-title">💕 Mini juego</div>
+              <p style="margin:0;color:var(--muted);line-height:1.6;">Cuando lleguen a esta página, la Nico tiene que decir tres veces “acceso” sin reírse. Si se ríe, Vale gana besito.</p>
+            </div>
+          </div>
+          <PhotoCard chapter="13" src="Foto9.jpeg" text="Papudo, San Valentín y el famoso acceso" />
+        </div>
+      </article>
+
+      <article class="page" data-title="Intimidad">
+        <div class="chapter-label">Capítulo 14</div>
+        <h2>La química que no se puede explicar</h2>
+        <span class="date-pill">Nuestro capítulo fogoso, bonito y muy nuestro</span>
+        <div class="grid">
+          <div class="text-card">
+            <p>Hay una parte de nosotras que también quiero guardar en este libro, porque no es solo deseo: es confianza, piel, risa, cuidado, complicidad y esa forma maravillosa en que el mundo desaparece cuando estamos juntas.</p>
+            <p>Lo nuestro es hermoso y fogoso, sí. Increíblemente bueno. Pero sobre todo es nuestro: con miradas que lo dicen todo, con besos que encienden, con ternura después, con seguridad, con respeto y con esa conexión que no se fabrica.</p>
+            <p>Me encanta desearte y también me encanta cuidarte. Me encanta la intensidad, pero más me encanta que contigo la intensidad se siente segura. Como si nuestros cuerpos también supieran algo que el corazón ya entendió hace rato.</p>
+            <div class="quote-box">Contigo aprendí que la química puede ser fuego y hogar al mismo tiempo.</div>
+          </div>
+          <PhotoCard chapter="14" src="Foto14.jpeg" text="Una foto íntima, bonita y muy nuestra" />
+        </div>
+      </article>
+
+      <article class="page" data-title="Segunda pedida">
+        <div class="chapter-label">Capítulo 15</div>
+        <h2>¿Quieres seguir siendo mi polola?</h2>
+        <span class="date-pill">6 de marzo de 2026</span>
+        <div class="grid">
+          <div class="text-card">
+            <p>El 6 de marzo me hiciste una sorpresa que todavía me derrite: una nueva pedida de pololeo con globos y flores, preguntándome si quería seguir siendo tu polola.</p>
+            <p>Y qué respuesta más fácil, mi amor. Sí. Sí quiero. Sí hoy, sí mañana, sí cuando nos reímos, sí cuando hay días difíciles, sí cuando hacemos planes, sí cuando improvisamos, sí cuando Emi nos cambia el diccionario, sí cuando Nali inspecciona olores ajenos.</p>
+            <p>Sí quiero seguir siendo tu polola. Y sí quiero seguir construyendo una vida contigo.</p>
+            <div class="quote-box">Sí, mi Pecas. Mil veces sí.</div>
+          </div>
+          <PhotoCard chapter="15" src="Foto15.jpeg" text="La segunda pedida: ¿quieres seguir siendo mi polola?" />
+        </div>
+      </article>
+
+      <article class="page" data-title="Navidad viaje">
+        <div class="chapter-label">Capítulo 16</div>
+        <h2>Nuestro primer viaje romántico</h2>
+        <span class="date-pill">Fin de semana del 3 de abril · Navidad</span>
+        <div class="grid">
+          <div class="text-card">
+            <p>El fin de semana del 3 de abril nos fuimos a Navidad: nuestro primer viaje romántico. Y qué lindo es que se llame Navidad, aunque nuestra historia ya venía celebrándose desde mucho antes.</p>
+            <p>Ese viaje fue de esos que se guardan en el cuerpo: paisajes, risas, tranquilidad, amor, compañía, besos, planes y esa sensación de que contigo puedo estar en cualquier parte y sentirme bien.</p>
+            <p>Me gusta viajar contigo porque no se trata solo del lugar. Se trata de mirarte en otro paisaje y pensar: sí, con ella.</p>
+            <div class="quote-box">Navidad fue una escapada, pero también fue una confirmación.</div>
+          </div>
+          <PhotoCard chapter="16" src="Foto17.jpeg" text="Nuestro primer viaje romántico a Navidad" />
+        </div>
+      </article>
+
+      <article class="page" data-title="Cumpleaños Vale">
+        <div class="chapter-label">Capítulo 17</div>
+        <h2>Mi cumpleaños con más apañe</h2>
+        <span class="date-pill">9 de abril de 2026</span>
+        <div class="grid">
+          <div class="text-card">
+            <p>El 9 de abril fue mi primer cumpleaños contigo y, honestamente, fue el cumpleaños con mayor apañe de esta señorita.</p>
+            <p>No solo por lo que hiciste, sino por cómo estuviste. Por tu manera de acompañarme, de hacerme sentir querida, presente, importante. Por transformar un día en un recuerdo que quiero volver a mirar muchas veces.</p>
+            <p>Gracias por estar, mi amor. Gracias por aparecer en mi vida con esa mezcla perfecta de caos, ternura, fuego, risa y hogar.</p>
+            <div class="quote-box">Ese cumpleaños tuvo una protagonista secreta: la felicidad que me daba tenerte ahí.</div>
+          </div>
+          <PhotoCard chapter="17" src="Foto5.jpeg" text="Mi cumpleaños con más apañe" />
+        </div>
+      </article>
+
+      <article class="page" data-title="Nuestros detalles">
+        <div class="chapter-label">Capítulo 18</div>
+        <h2>Pequeñas cosas que son gigantes</h2>
+        <span class="date-pill">Todos estos meses</span>
+        <div class="text-card">
+          <p>Este capítulo es para todo lo que no cabe en una fecha: los “te amo”, los “amor”, los “Reini”, los “Negri”, los “mi señora”, los mensajes de ¿llegaste bien?, las ganas de aparecer después del trabajo solo para robar un café y un beso.</p>
+          <p>Para tus caritas, tus lentes que sientes que te obstruyen, tu “soy re simpática”, tu perfume, tus ojitos, tus mañitas, tus ganas de chocolate, nuestras teteras, nuestras risas y la forma en que siempre terminamos queriendo vernos un poquito más.</p>
+          <p>Para Nali, que desde el primer día hizo inspección oficial. Para Emi, que se volvió parte de esta historia con sus frases inolvidables. Para las familias, los viajes, los nervios, las fotos y todas las veces en que la vida nos dijo: esto está creciendo bonito.</p>
+          <div class="timeline">
+            <button onclick="goToPage(1)"><small>07 dic</small>Primera cita, cine y primer beso</button>
+            <button onclick="goToPage(6)"><small>San Felipe</small>Pelota y primera foto familiar</button>
+            <button onclick="goToPage(7)"><small>03 ene</small>Pololeo oficial y Nali</button>
+            <button onclick="goToPage(10)"><small>28 ene</small>Cumpleaños Nico y su familia</button>
+            <button onclick="goToPage(11)"><small>12 feb</small>Primer concierto: Tini</button>
+            <button onclick="goToPage(12)"><small>Febrero</small>San Valentín, Papudo y acceso</button>
+            <button onclick="goToPage(14)"><small>06 mar</small>Segunda pedida con flores</button>
+            <button onclick="goToPage(15)"><small>03 abr</small>Viaje romántico a Navidad</button>
+            <button onclick="goToPage(16)"><small>09 abr</small>Cumpleaños con apañe</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="page" data-title="Carta final">
+        <div class="chapter-label">Capítulo final</div>
+        <h2>Para mi amor de mi vida</h2>
+        <div class="final-letter">
+          <p>Mi Pecas, mi Reini, mi Negri, mi señora:</p>
+          <p>Cinco meses pueden sonar poquito para el mundo, pero para mí han sido suficientes para saber algo enorme: te amo de una manera que me da paz y emoción al mismo tiempo.</p>
+          <p>Me enamora tu risa, tu ternura, tu forma de mirarme, tu intensidad, tu manera de ser mamá, tu lado chistoso, tu lado vulnerable, tus mañas, tus caritas, tus besos y esa forma tuya de hacer que cualquier día se sienta menos pesado.</p>
+          <p>Gracias por dejarme entrar en tu vida. Gracias por confiar en mí, por mostrarme tu mundo, por compartirme a la Emi de a poquito, por conocer a la Nali, por apañarme, por elegirme y por hacerme sentir que esto que tenemos es real, bonito y nuestro.</p>
+          <p>Yo estoy segura de ti. Estoy segura de que quiero seguir construyendo contigo. Quiero más viajes, más cafés, más conciertos, más camas con risas, más domingos, más conversaciones, más “accesos”, más besitos, más vida.</p>
+          <p>Hoy cumplimos 5 meses y yo solo puedo pensar que quiero una vida entera contigo.</p>
+          <div class="signature">Con todo mi amor,<br>Tu rulitos, alias tu futura esposa jaja 💍</div>
+          <div class="final-gallery" aria-label="Fotos finales de nosotras">
+            <img src="Foto18.jpeg" alt="Manitos juntas">
+            <img src="Foto19.jpeg" alt="Besito">
+            <img src="Foto20.jpeg" alt="Nosotras juntas">
+            <img src="Foto21.jpeg" alt="Beso en el viaje">
+            <img src="Foto22.jpeg" alt="Nosotras en el auto">
+          </div>
+          <button class="btn secret-btn" onclick="burstFinal()">Toca para cerrar con flores y corazones 🌸💖</button>
+        </div>
+      </article>
+    </section>
+
+    <nav class="nav">
+      <button class="btn" onclick="prevPage()">← Página anterior</button>
+      <div class="progress"><div class="bar" id="bar"></div></div>
+      <div class="page-counter" id="counter">1 / 18</div>
+      <button class="btn" onclick="nextPage()">Siguiente página →</button>
+    </nav>
+
+    <p class="instructions">
+      Tip fotos: toca “Elegir foto” en cada capítulo. Para que queden guardadas al subirlo a GitHub, reemplaza cada imagen temporal por archivos como <b>Portada.jpeg</b>, <b>Foto1.jpeg</b>, <b>Foto2.jpeg</b>, etc. Para publicarlo, sube el HTML junto a todas esas fotos con exactamente esos nombres en la misma carpeta.
+    </p>
+  </main>
+
+  <template id="photo-template">
+    <div class="photo-card">
+      <div class="photo-frame">
+        <div class="photo-placeholder"><span class="big">📷</span><span></span></div>
+      </div>
+      <div class="photo-actions">
+        <label class="upload-label">Elegir foto<input type="file" accept="image/*" /></label>
+        <button class="btn secret-btn" type="button">Quitar foto</button>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    // Convierte los tags <PhotoCard> en tarjetas reales de foto.
+    document.querySelectorAll('PhotoCard').forEach((el) => {
+      const template = document.getElementById('photo-template').content.cloneNode(true);
+      const card = template.querySelector('.photo-card');
+      const chapter = el.getAttribute('chapter');
+      const text = el.getAttribute('text') || 'Pon aquí una foto especial';
+      const initialSrc = el.getAttribute('src');
+      const frame = card.querySelector('.photo-frame');
+      const placeholder = card.querySelector('.photo-placeholder span:last-child');
+      const input = card.querySelector('input');
+      const remove = card.querySelector('button');
+      const key = 'nico-vale-photo-' + chapter;
+      placeholder.textContent = text;
+
+      function setImage(src) {
+        frame.querySelectorAll('img').forEach(img => img.remove());
+        if (!src) return;
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = text;
+        frame.appendChild(img);
+      }
+
+      const saved = localStorage.getItem(key);
+      if (saved) setImage(saved);
+      else if (initialSrc) setImage(initialSrc);
+
+      input.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          try { localStorage.setItem(key, reader.result); } catch(e) {}
+          setImage(reader.result);
+        };
+        reader.readAsDataURL(file);
+      });
+
+      remove.addEventListener('click', () => {
+        localStorage.removeItem(key);
+        frame.querySelectorAll('img').forEach(img => img.remove());
+        if (initialSrc) setImage(initialSrc);
+        input.value = '';
+      });
+
+      el.replaceWith(card);
+    });
+
+    const pages = Array.from(document.querySelectorAll('.page'));
+    let current = 0;
+    const bar = document.getElementById('bar');
+    const counter = document.getElementById('counter');
+
+    function updatePage() {
+      pages.forEach((p, i) => p.classList.toggle('active', i === current));
+      bar.style.width = ((current + 1) / pages.length * 100) + '%';
+      counter.textContent = `${current + 1} / ${pages.length}`;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function nextPage() {
+      current = Math.min(current + 1, pages.length - 1);
+      updatePage();
+      littleBurst();
+    }
+
+    function prevPage() {
+      current = Math.max(current - 1, 0);
+      updatePage();
+      littleBurst();
+    }
+
+    function goToPage(index) {
+      current = Math.max(0, Math.min(index, pages.length - 1));
+      updatePage();
+      littleBurst();
+    }
+
+    function toggleSecret(button) {
+      const msg = button.nextElementSibling;
+      if (msg) msg.classList.toggle('show');
+      littleBurst();
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') nextPage();
+      if (e.key === 'ArrowLeft') prevPage();
+    });
+
+    updatePage();
+
+    // Cursor de flor/corazón.
+    const cursor = document.getElementById('cursor');
+    const cursorIcons = ['🌸', '💖', '🌷', '💗', '✨'];
+    let cursorTick = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+      cursorTick++;
+      if (cursorTick % 24 === 0) cursor.textContent = cursorIcons[Math.floor(Math.random() * cursorIcons.length)];
+    });
+
+    document.addEventListener('click', (e) => {
+      createClickHeart(e.clientX, e.clientY);
+    });
+
+    function createClickHeart(x, y) {
+      const heart = document.createElement('div');
+      heart.className = 'click-heart';
+      heart.style.left = x + 'px';
+      heart.style.top = y + 'px';
+      heart.style.fontSize = (18 + Math.random() * 18) + 'px';
+      heart.textContent = ['💖','🌸','💗','🌷','✨'][Math.floor(Math.random() * 5)];
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 1200);
+    }
+
+    function spawnFloatie() {
+      const f = document.createElement('div');
+      f.className = 'floatie';
+      f.textContent = ['🌸', '🌷', '💖', '💗', '🤍', '✨'][Math.floor(Math.random() * 6)];
+      f.style.left = Math.random() * 100 + 'vw';
+      f.style.bottom = '-40px';
+      f.style.fontSize = (18 + Math.random() * 26) + 'px';
+      f.style.animationDuration = (8 + Math.random() * 8) + 's';
+      document.body.appendChild(f);
+      setTimeout(() => f.remove(), 17000);
+    }
+
+    setInterval(spawnFloatie, 850);
+
+    function littleBurst() {
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      for (let i = 0; i < 8; i++) {
+        setTimeout(() => createClickHeart(cx + (Math.random() - .5) * 180, cy + (Math.random() - .5) * 110), i * 45);
+      }
+    }
+
+    function burstFinal() {
+      for (let i = 0; i < 42; i++) {
+        setTimeout(() => createClickHeart(Math.random() * window.innerWidth, Math.random() * window.innerHeight), i * 35);
+      }
+    }
+  </script>
+</body>
+</html>
