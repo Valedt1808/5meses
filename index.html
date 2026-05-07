@@ -197,6 +197,11 @@
       transform: rotate(-1.5deg);
       position: relative;
       overflow: hidden;
+      margin: 18px auto 8px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
     }
 
     .cover-photo::after {
@@ -216,6 +221,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      object-position: center center;
       border-radius: 24px;
       display: block;
     }
@@ -512,6 +518,12 @@
       line-height: 1.45;
     }
 
+    .photo-actions,
+    .photo-placeholder,
+    .instructions {
+      display: none !important;
+    }
+
     @media (max-width: 780px) {
       .book-shell::after { display: none; }
       .final-gallery { grid-template-columns: repeat(2, 1fr); }
@@ -603,7 +615,7 @@
             <p>Ahí nació una de mis frases favoritas de nosotras: tenemos que acostumbrarnos a que nos quieran bonito.</p>
             <div class="quote-box">Y yo no tengo ningún problema en acostumbrarme contigo, mi amor.</div>
           </div>
-          <PhotoCard chapter="3" src="Foto4.jpeg" text="Manitos, pastito y querernos bonito" />
+          <PhotoCard chapter="3" src="Foto3.jpeg" text="Manitos, pastito y querernos bonito" />
         </div>
       </article>
 
@@ -618,7 +630,7 @@
             <p>Porque amar también es eso: querer estar cuando la otra brilla y también cuando necesita apoyarse un ratito.</p>
             <div class="quote-box">Mi señora, incluso en tus días difíciles, me sigues pareciendo hogar.</div>
           </div>
-          <PhotoCard chapter="4" src="Foto8.jpeg" text="Mimos, cama y Nali acompañando" />
+          <PhotoCard chapter="4" src="Foto4.jpeg" text="Mimos, cama y Nali acompañando" />
         </div>
       </article>
 
@@ -635,7 +647,7 @@
               <div class="quote-box">Y sí: después vino el legendario “acceso”. Nadie lo supera.</div>
             </div>
           </div>
-          <PhotoCard chapter="5" src="Foto3.jpeg" text="La playa y los primeros pedacitos de tu mundo" />
+          <PhotoCard chapter="5" src="Foto5.jpeg" text="La playa y los primeros pedacitos de tu mundo" />
         </div>
       </article>
 
@@ -680,7 +692,7 @@
             <p>Ese mismo día conociste a la Nali, lo más importante de mi vida. Y no sé si dimensionas lo grande que fue eso para mí: mi mundo mirándote, oliéndote, registrándote, y yo sintiendo que algo hacía clic.</p>
             <div class="quote-box">3 de enero: tú, yo, la Nali y un “sí” que todavía me emociona.</div>
           </div>
-          <PhotoCard chapter="8" src="Foto13.jpeg" text="El sí, la Nali y el inicio oficial" />
+          <PhotoCard chapter="8" src="Foto8.jpeg" text="El sí, la Nali y el inicio oficial" />
         </div>
       </article>
 
@@ -695,7 +707,7 @@
             <p>Y qué lindo ha sido ir conociendo nuestros mundos sin apurarlos, con respeto, humor, nervios y amorcito.</p>
             <div class="quote-box">Tu cumpleaños fue el primer gran paso hacia tu gente. Y yo feliz de estar ahí.</div>
           </div>
-          <PhotoCard chapter="9" src="Foto16.jpeg" text="Nuestros mundos cruzándose" />
+          <PhotoCard chapter="9" src="Foto9.jpeg" text="Nuestros mundos cruzándose" />
         </div>
       </article>
 
@@ -710,7 +722,7 @@
             <p>Y sí, amor: eres adictiva. Tus sonrisas, tus besitos, tu manera de mirarme, tu forma de decirme “amor”. Todo.</p>
             <div class="quote-box">“No sé cómo es que te extraño tanto.” Yo sí sé: porque eres tú.</div>
           </div>
-          <PhotoCard chapter="10" src="Foto12.jpeg" text="Extrañarte, regalonearte y querer quedarme" />
+          <PhotoCard chapter="10" src="Foto10.jpeg" text="Extrañarte, regalonearte y querer quedarme" />
         </div>
       </article>
 
@@ -740,7 +752,7 @@
             <p>Fue otro primerito. Otro capítulo. Otra prueba de que contigo quiero vivir cosas grandes, chicas, simples, intensas, ridículas y hermosas.</p>
             <div class="quote-box">Primer concierto juntas: oficialmente una canción más para nuestra historia.</div>
           </div>
-          <PhotoCard chapter="12" src="Foto10.jpeg" text="Nuestro primer concierto: Tini" />
+          <PhotoCard chapter="12" src="Foto12.jpeg" text="Nuestro primer concierto: Tini" />
         </div>
       </article>
 
@@ -761,7 +773,7 @@
               <p style="margin:0;color:var(--muted);line-height:1.6;">Cuando lleguen a esta página, la Nico tiene que decir tres veces “acceso” sin reírse. Si se ríe, Vale gana besito.</p>
             </div>
           </div>
-          <PhotoCard chapter="13" src="Foto9.jpeg" text="Papudo, San Valentín y el famoso acceso" />
+          <PhotoCard chapter="13" src="Foto13.jpeg" text="Papudo, San Valentín y el famoso acceso" />
         </div>
       </article>
 
@@ -806,7 +818,7 @@
             <p>Me gusta viajar contigo porque no se trata solo del lugar. Se trata de mirarte en otro paisaje y pensar: sí, con ella.</p>
             <div class="quote-box">Navidad fue una escapada, pero también fue una confirmación.</div>
           </div>
-          <PhotoCard chapter="16" src="Foto17.jpeg" text="Nuestro primer viaje romántico a Navidad" />
+          <PhotoCard chapter="16" src="Foto16.jpeg" text="Nuestro primer viaje romántico a Navidad" />
         </div>
       </article>
 
@@ -821,7 +833,7 @@
             <p>Gracias por estar, mi amor. Gracias por aparecer en mi vida con esa mezcla perfecta de caos, ternura, fuego, risa y hogar.</p>
             <div class="quote-box">Ese cumpleaños tuvo una protagonista secreta: la felicidad que me daba tenerte ahí.</div>
           </div>
-          <PhotoCard chapter="17" src="Foto5.jpeg" text="Mi cumpleaños con más apañe" />
+          <PhotoCard chapter="17" src="Foto17.jpeg" text="Mi cumpleaños con más apañe" />
         </div>
       </article>
 
@@ -952,7 +964,6 @@
       pages.forEach((p, i) => p.classList.toggle('active', i === current));
       bar.style.width = ((current + 1) / pages.length * 100) + '%';
       counter.textContent = `${current + 1} / ${pages.length}`;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function nextPage() {
